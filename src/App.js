@@ -1,9 +1,20 @@
 import React, { Component } from 'react';
 import { gql, graphql } from 'react-apollo';
 
+import { Foo, Bar } from './Thing';
+
 class App extends Component {
+  state = {
+    bar: false,
+  };
+
+  componentDidMount() {
+    setTimeout(() => this.setState({ bar: true }), 3000)
+  }
+
   render() {
-    const { data: { loading, people } } = this.props;
+    const { data: { loading, currentThing: { id } = {} } } = this.props;
+
     return (
       <main>
         <header>
@@ -23,14 +34,12 @@ class App extends Component {
         {loading ? (
           <p>Loading…</p>
         ) : (
-          <ul>
-            {people.map(person => (
-              <li key={person.id}>
-                {person.name}
-              </li>
-            ))}
-          </ul>
-        )}
+            <p>
+              ThingID = <code>{id}</code>
+            </p>
+          )}
+        <Foo />
+        {this.state.bar ? <Bar /> : null}
       </main>
     );
   }
@@ -38,9 +47,8 @@ class App extends Component {
 
 export default graphql(
   gql`{
-    people {
+    currentThing {
       id
-      name
     }
   }`,
 )(App)

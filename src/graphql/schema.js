@@ -1,33 +1,33 @@
-import {
-  GraphQLSchema,
-  GraphQLObjectType,
-  GraphQLID,
-  GraphQLString,
-  GraphQLList,
-} from 'graphql';
+import { makeExecutableSchema } from 'graphql-tools';
 
-const PersonType = new GraphQLObjectType({
-  name: 'Person',
-  fields: {
-    id: { type: GraphQLID },
-    name: { type: GraphQLString },
+export const typeDefs = `
+  type Query {
+    currentThing: Thing!
+  }
+
+  type Thing {
+    id: String!
+    thingData: ThingData!
+  }
+
+  type ThingData {
+    foo: String!
+    bar: String!
+  }
+`;
+
+const resolvers = {
+  Query: {
+    currentThing: () => ({ id: 'dummy-id' }),
   },
-});
-
-const peopleData = [
-  { id: 1, name: 'John Smith' },
-  { id: 2, name: 'Sara Smith' },
-  { id: 3, name: 'Budd Deey' },
-];
-
-const QueryType = new GraphQLObjectType({
-  name: 'Query',
-  fields: {
-    people: {
-      type: new GraphQLList(PersonType),
-      resolve: () => peopleData,
+  Thing: {
+    thingData: (thing) => {
+      return {
+        foo: `thing_foo-${thing.id}`,
+        bar: `thing_bar-${thing.id}`,
+      };
     },
   },
-});
+};
 
-export const schema = new GraphQLSchema({ query: QueryType });
+export const schema = makeExecutableSchema({ typeDefs, resolvers });

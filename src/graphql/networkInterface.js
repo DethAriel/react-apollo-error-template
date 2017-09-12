@@ -16,7 +16,7 @@ export const networkInterface = {
   },
 };
 
-function delay (ms) {
+function delay(ms) {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve();
