@@ -6,7 +6,7 @@ export const typeDefs = `
   }
 
   type Thing {
-    id: String!
+    nonId: String!
     thingData: ThingData!
   }
 
@@ -18,13 +18,13 @@ export const typeDefs = `
 
 const resolvers = {
   Query: {
-    currentThing: () => ({ id: 'dummy-id' }),
+    currentThing: () => ({ nonId: 'dummy-id' }),
   },
   Thing: {
     thingData: (thing) => {
       return {
-        foo: `thing_foo-${thing.id}`,
-        bar: `thing_bar-${thing.id}`,
+        foo: `thing_foo-${thing.nonId}`,
+        bar: `thing_bar-${thing.nonId}`,
       };
     },
   },

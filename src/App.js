@@ -13,7 +13,7 @@ class App extends Component {
   }
 
   render() {
-    const { data: { loading, currentThing: { id } = {} } } = this.props;
+    const { data: { loading, currentThing: { nonId } = {} } } = this.props;
 
     return (
       <main>
@@ -35,7 +35,7 @@ class App extends Component {
           <p>Loading…</p>
         ) : (
             <p>
-              ThingID = <code>{id}</code>
+              ThingID = <code>{nonId}</code>
             </p>
           )}
         <Foo />
@@ -48,7 +48,7 @@ class App extends Component {
 export default graphql(
   gql`{
     currentThing {
-      id
+      nonId
     }
   }`,
 )(App)
